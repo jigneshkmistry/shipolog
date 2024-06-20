@@ -1,0 +1,122 @@
+{
+    "resource": "/rates",
+    "path": "/rates",
+    "httpMethod": "POST",
+    "headers": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "true",
+        "CloudFront-Is-Mobile-Viewer": "false",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-ASN": "38266",
+        "CloudFront-Viewer-Country": "IN",
+        "Content-Type": "application/json",
+        "Host": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
+        "Postman-Token": "56e81950-a238-4ee8-922d-7ca7887724fd",
+        "User-Agent": "PostmanRuntime/7.37.3",
+        "Via": "1.1 0ce0f3876ca32a6a67745d6370790fb6.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "Y6LeKo5a3HfODtSeY9TMye7McwUxJqdIl7pl1ssXhXBR8pciLxTTpw==",
+        "X-Amzn-Trace-Id": "Root=1-66716946-6c9c3863353768e00c0e23a9",
+        "X-Forwarded-For": "42.111.220.78, 15.158.25.212",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "*/*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "CloudFront-Forwarded-Proto": [
+            "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+            "true"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+            "false"
+        ],
+        "CloudFront-Viewer-ASN": [
+            "38266"
+        ],
+        "CloudFront-Viewer-Country": [
+            "IN"
+        ],
+        "Content-Type": [
+            "application/json"
+        ],
+        "Host": [
+            "vw9t8uyzli.execute-api.us-east-1.amazonaws.com"
+        ],
+        "Postman-Token": [
+            "56e81950-a238-4ee8-922d-7ca7887724fd"
+        ],
+        "User-Agent": [
+            "PostmanRuntime/7.37.3"
+        ],
+        "Via": [
+            "1.1 0ce0f3876ca32a6a67745d6370790fb6.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "Y6LeKo5a3HfODtSeY9TMye7McwUxJqdIl7pl1ssXhXBR8pciLxTTpw=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-66716946-6c9c3863353768e00c0e23a9"
+        ],
+        "X-Forwarded-For": [
+            "42.111.220.78, 15.158.25.212"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "6lg32s",
+        "resourcePath": "/rates",
+        "httpMethod": "POST",
+        "extendedRequestId": "Zj1jHFRTIAMERSA=",
+        "requestTime": "18/Jun/2024:11:02:30 +0000",
+        "path": "/Prod/rates",
+        "accountId": "213387745654",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "vw9t8uyzli",
+        "requestTimeEpoch": 1718708550865,
+        "requestId": "a4beb0eb-6c14-4eca-9219-aa753e34ac7e",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "42.111.220.78",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "PostmanRuntime/7.37.3",
+            "user": null
+        },
+        "domainName": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
+        "deploymentId": "v5wvzb",
+        "apiId": "vw9t8uyzli"
+    },
+    "body": "{\n    \"carrierCode\": \"fedex\",\n    \"serviceCode\": null,\n    \"packageCode\": null,\n    \"fromPostalCode\": \"78703\",\n    \"toState\": \"DC\",\n    \"toCountry\": \"US\",\n    \"toPostalCode\": \"20500\",\n    \"toCity\": \"Washington\",\n    \"weight\": {\n        \"value\": 3,\n        \"units\": \"ounces\"\n    },\n    \"dimensions\": {\n        \"units\": \"inches\",\n        \"length\": 7,\n        \"width\": 5,\n        \"height\": 6\n    },\n    \"confirmation\": \"delivery\",\n    \"residential\": false\n}",
+    "isBase64Encoded": false
+}

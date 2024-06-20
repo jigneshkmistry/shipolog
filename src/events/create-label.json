@@ -1,0 +1,122 @@
+{
+    "resource": "/label",
+    "path": "/label",
+    "httpMethod": "POST",
+    "headers": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "true",
+        "CloudFront-Is-Mobile-Viewer": "false",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-ASN": "38266",
+        "CloudFront-Viewer-Country": "IN",
+        "Content-Type": "application/json",
+        "Host": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
+        "Postman-Token": "161b48d9-6692-40fb-a8f2-5e357fe7250d",
+        "User-Agent": "PostmanRuntime/7.37.3",
+        "Via": "1.1 0ce0f3876ca32a6a67745d6370790fb6.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "duqEa7H4v8HG0MIrj9co74og39N-OntRA2hiBxLT_pmc1MPh_udJLQ==",
+        "X-Amzn-Trace-Id": "Root=1-667169df-02c6dd23370d15563198effa",
+        "X-Forwarded-For": "42.111.220.78, 15.158.25.242",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "*/*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "CloudFront-Forwarded-Proto": [
+            "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+            "true"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+            "false"
+        ],
+        "CloudFront-Viewer-ASN": [
+            "38266"
+        ],
+        "CloudFront-Viewer-Country": [
+            "IN"
+        ],
+        "Content-Type": [
+            "application/json"
+        ],
+        "Host": [
+            "vw9t8uyzli.execute-api.us-east-1.amazonaws.com"
+        ],
+        "Postman-Token": [
+            "161b48d9-6692-40fb-a8f2-5e357fe7250d"
+        ],
+        "User-Agent": [
+            "PostmanRuntime/7.37.3"
+        ],
+        "Via": [
+            "1.1 0ce0f3876ca32a6a67745d6370790fb6.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "duqEa7H4v8HG0MIrj9co74og39N-OntRA2hiBxLT_pmc1MPh_udJLQ=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-667169df-02c6dd23370d15563198effa"
+        ],
+        "X-Forwarded-For": [
+            "42.111.220.78, 15.158.25.242"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "6unv8h",
+        "resourcePath": "/label",
+        "httpMethod": "POST",
+        "extendedRequestId": "Zj168HLlIAMEOcg=",
+        "requestTime": "18/Jun/2024:11:05:03 +0000",
+        "path": "/Prod/label",
+        "accountId": "213387745654",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "vw9t8uyzli",
+        "requestTimeEpoch": 1718708703343,
+        "requestId": "92cf4ce0-4470-4bc6-b2a4-e4dc35502bf6",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "42.111.220.78",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "PostmanRuntime/7.37.3",
+            "user": null
+        },
+        "domainName": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
+        "deploymentId": "v5wvzb",
+        "apiId": "vw9t8uyzli"
+    },
+    "body": "{\"orderId\":432966619,\"carrierCode\":\"stamps_com\",\"serviceCode\":\"usps_priority_mail\",\"confirmation\":\"none\",\"shipDate\":\"2024-06-24\",\"testLabel\":false}",
+    "isBase64Encoded": false
+}

@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  shipolog-app
+
+Transform:
+- AWS::Serverless-2016-10-31
+
+Parameters:
+  apiKey:
+    Type: String
+    Description: API key for shipstation API
+  secret:
+    Type: String
+    Description: Secret key for shipstation API
+
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    MemorySize: 128
+    Timeout: 100
+    Architectures:
+        - x86_64
+
+Resources:
+  
+  getOrdersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/get-orders.handler
+      Timeout: 800
+      Environment:
+        Variables:
+          api_key: !Ref apiKey
+          secret: !Ref secret
+      Policies:
+         - DynamoDBCrudPolicy:
+            TableName: OrderWithItem
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /orders
+            Method: GET
+
+  getRatesFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/get-rates.handler
+      Environment:
+        Variables:
+          api_key: !Ref apiKey
+          secret: !Ref secret
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /rates
+            Method: POST
+
+  createLabelFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/create-label.handler
+      Environment:
+        Variables:
+          api_key: !Ref apiKey
+          secret: !Ref secret
+      Policies:
+         - DynamoDBCrudPolicy:
+            TableName: OrderWithItem
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /label
+            Method: POST
+
+Outputs:
+  WebEndpoint:
+    Description: "API Gateway endpoint URL for Prod stage"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
