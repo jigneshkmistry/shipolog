@@ -14,12 +14,12 @@
         "CloudFront-Viewer-Country": "IN",
         "Content-Type": "application/json",
         "Host": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
-        "Postman-Token": "161b48d9-6692-40fb-a8f2-5e357fe7250d",
+        "Postman-Token": "29be647d-c8f9-4484-9382-d3527622d9ae",
         "User-Agent": "PostmanRuntime/7.37.3",
-        "Via": "1.1 0ce0f3876ca32a6a67745d6370790fb6.cloudfront.net (CloudFront)",
-        "X-Amz-Cf-Id": "duqEa7H4v8HG0MIrj9co74og39N-OntRA2hiBxLT_pmc1MPh_udJLQ==",
-        "X-Amzn-Trace-Id": "Root=1-667169df-02c6dd23370d15563198effa",
-        "X-Forwarded-For": "42.111.220.78, 15.158.25.242",
+        "Via": "1.1 e8682ea46bd23579ca68ac92490e8e4a.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "2mViFnP8QvtdiQNda6ig3jPi-FWTOsJhoxK20ijny6NITqDDPUEkMg==",
+        "X-Amzn-Trace-Id": "Root=1-667431a5-0504af711ec417c2387f6ddf",
+        "X-Forwarded-For": "42.111.216.90, 15.158.25.240",
         "X-Forwarded-Port": "443",
         "X-Forwarded-Proto": "https"
     },
@@ -58,22 +58,22 @@
             "vw9t8uyzli.execute-api.us-east-1.amazonaws.com"
         ],
         "Postman-Token": [
-            "161b48d9-6692-40fb-a8f2-5e357fe7250d"
+            "29be647d-c8f9-4484-9382-d3527622d9ae"
         ],
         "User-Agent": [
             "PostmanRuntime/7.37.3"
         ],
         "Via": [
-            "1.1 0ce0f3876ca32a6a67745d6370790fb6.cloudfront.net (CloudFront)"
+            "1.1 e8682ea46bd23579ca68ac92490e8e4a.cloudfront.net (CloudFront)"
         ],
         "X-Amz-Cf-Id": [
-            "duqEa7H4v8HG0MIrj9co74og39N-OntRA2hiBxLT_pmc1MPh_udJLQ=="
+            "2mViFnP8QvtdiQNda6ig3jPi-FWTOsJhoxK20ijny6NITqDDPUEkMg=="
         ],
         "X-Amzn-Trace-Id": [
-            "Root=1-667169df-02c6dd23370d15563198effa"
+            "Root=1-667431a5-0504af711ec417c2387f6ddf"
         ],
         "X-Forwarded-For": [
-            "42.111.220.78, 15.158.25.242"
+            "42.111.216.90, 15.158.25.240"
         ],
         "X-Forwarded-Port": [
             "443"
@@ -90,21 +90,21 @@
         "resourceId": "6unv8h",
         "resourcePath": "/label",
         "httpMethod": "POST",
-        "extendedRequestId": "Zj168HLlIAMEOcg=",
-        "requestTime": "18/Jun/2024:11:05:03 +0000",
+        "extendedRequestId": "Zqyx4E9QoAMENpQ=",
+        "requestTime": "20/Jun/2024:13:41:57 +0000",
         "path": "/Prod/label",
         "accountId": "213387745654",
         "protocol": "HTTP/1.1",
         "stage": "Prod",
         "domainPrefix": "vw9t8uyzli",
-        "requestTimeEpoch": 1718708703343,
-        "requestId": "92cf4ce0-4470-4bc6-b2a4-e4dc35502bf6",
+        "requestTimeEpoch": 1718890917338,
+        "requestId": "bb188c0b-c302-492c-b321-a845baae2b66",
         "identity": {
             "cognitoIdentityPoolId": null,
             "accountId": null,
             "cognitoIdentityId": null,
             "caller": null,
-            "sourceIp": "42.111.220.78",
+            "sourceIp": "42.111.216.90",
             "principalOrgId": null,
             "accessKey": null,
             "cognitoAuthenticationType": null,
@@ -117,6 +117,6 @@
         "deploymentId": "v5wvzb",
         "apiId": "vw9t8uyzli"
     },
-    "body": "{\"orderId\":432966619,\"carrierCode\":\"stamps_com\",\"serviceCode\":\"usps_priority_mail\",\"confirmation\":\"none\",\"shipDate\":\"2024-06-24\",\"testLabel\":false}",
+    "body": "{\n    \"orderId\": 433044190,\n    \"carrierCode\": \"stamps_com\",\n    \"serviceCode\": \"usps_ground_advantage\",\n    \"confirmation\": \"none\",\n    \"shipDate\": \"2024-06-24\",\n    \"testLabel\": false,\n    \"isCreateLabel\": true,\n    \"isLabelPrinted\": true\n}",
     "isBase64Encoded": false
 }

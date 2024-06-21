@@ -117,6 +117,6 @@
         "deploymentId": "v5wvzb",
         "apiId": "vw9t8uyzli"
     },
-    "body": "{\n    \"carrierCode\": \"fedex\",\n    \"serviceCode\": null,\n    \"packageCode\": null,\n    \"fromPostalCode\": \"78703\",\n    \"toState\": \"DC\",\n    \"toCountry\": \"US\",\n    \"toPostalCode\": \"20500\",\n    \"toCity\": \"Washington\",\n    \"weight\": {\n        \"value\": 3,\n        \"units\": \"ounces\"\n    },\n    \"dimensions\": {\n        \"units\": \"inches\",\n        \"length\": 7,\n        \"width\": 5,\n        \"height\": 6\n    },\n    \"confirmation\": \"delivery\",\n    \"residential\": false\n}",
+    "body": "{\n    \"carrierCode\": \"stamps_com\",\n    \"serviceCode\": 78703,\n    \"packageCode\": null,\n    \"fromPostalCode\": \"78703\",\n    \"toState\": \"DC\",\n    \"toCountry\": \"US\",\n    \"toPostalCode\": \"20500\",\n    \"toCity\": \"Washington\",\n    \"weight\": {\n        \"value\": 3,\n        \"units\": \"ounces\"\n    },\n    \"dimensions\": {\n        \"units\": \"inches\",\n        \"length\": 7,\n        \"width\": 5,\n        \"height\": 6\n    },\n    \"confirmation\": \"delivery\",\n    \"residential\": false\n}",
     "isBase64Encoded": false
 }
