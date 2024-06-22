@@ -10,7 +10,8 @@ const { DynamoDBDocumentClient, BatchWriteCommand, GetCommand, PutCommand } = re
 
 //#region INITIALIZATION
 
-const client = new DynamoDBClient({ region: 'us-east-1' });
+const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
+const client = new DynamoDBClient({ region: AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
 const BATCH_RECORD_COUNT = 20;
 var shipstation = new shipstationAPI(process.env.api_key, process.env.secret);

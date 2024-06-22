@@ -9,7 +9,8 @@ const { DynamoDBDocumentClient, UpdateCommand } = require('@aws-sdk/lib-dynamodb
 
 //#region INITIALIZATION
 
-const client = new DynamoDBClient({ region: 'us-east-1' });
+const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
+const client = new DynamoDBClient({ region: AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
 const shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
 const setLabelForOrderAsync = util.promisify(shipstation.setLabelForOrder);
