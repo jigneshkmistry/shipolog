@@ -2,16 +2,19 @@
 
 const util = require('util');
 var shipstationAPI = require('node-shipstation');
-const dynamodb = require('aws-sdk/clients/dynamodb')
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
 
 //#endregion
 
 //#region INITIALIZATION
 
-const docClient = new dynamodb.DocumentClient({ region: 'us-east-1' })
+const client = new DynamoDBClient({ region: 'us-east-1' });
+const docClient = DynamoDBDocumentClient.from(client);
 const shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
 const setLabelForOrderAsync = util.promisify(shipstation.setLabelForOrder);
 const PK = `ACC#${process.env.api_key}`;
+const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 
 //#endregion
 
@@ -19,6 +22,7 @@ const PK = `ACC#${process.env.api_key}`;
 
 exports.handler = async (event, context) => {
     try {
+        console.log("Event : " + JSON.stringify(event));
         console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
         
@@ -72,8 +76,8 @@ exports.handler = async (event, context) => {
 
 async function updateOrderInDynamoDB(result, orderItem) {
 
-    await docClient.update({
-        TableName: 'OrderWithItem',
+    const command = new UpdateCommand({
+        TableName: ORDER_WITH_ITEM_TABLE_NAME,
         Key: {
             "PK": PK,
             "SK": `ORD#${result.orderId}`
@@ -97,7 +101,9 @@ async function updateOrderInDynamoDB(result, orderItem) {
             ":packageDimensions": orderItem.packageDimensions
         },
         UpdateExpression: "SET #shipmentId = :shipmentId, #trackingNumber = :trackingNumber, #orderStatus = :orderStatus, #labelCreated = :labelCreated, #labelPrinted = :labelPrinted, #weight = :weight, #packageDimensions = :packageDimensions"
-    }).promise();
+    });
+
+    return await docClient.send(command);
 }
 
 //#endregion

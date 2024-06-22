@@ -23,6 +23,22 @@ Globals:
 
 Resources:
   
+  orderWithItemTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+      TableName: !Sub 'OrdersWithItems'
+
   getOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -32,9 +48,10 @@ Resources:
         Variables:
           api_key: !Ref apiKey
           secret: !Ref secret
+          ORDER_WITH_ITEM_TABLE_NAME: !Ref orderWithItemTable
       Policies:
          - DynamoDBCrudPolicy:
-            TableName: OrderWithItem
+            TableName: !Ref orderWithItemTable
       Events:
         Api:
           Type: Api
@@ -65,9 +82,10 @@ Resources:
         Variables:
           api_key: !Ref apiKey
           secret: !Ref secret
+          ORDER_WITH_ITEM_TABLE_NAME: !Ref orderWithItemTable
       Policies:
          - DynamoDBCrudPolicy:
-            TableName: OrderWithItem
+            TableName: !Ref orderWithItemTable
       Events:
         Api:
           Type: Api

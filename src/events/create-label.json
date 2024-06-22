@@ -10,16 +10,16 @@
         "CloudFront-Is-Mobile-Viewer": "false",
         "CloudFront-Is-SmartTV-Viewer": "false",
         "CloudFront-Is-Tablet-Viewer": "false",
-        "CloudFront-Viewer-ASN": "38266",
+        "CloudFront-Viewer-ASN": "55836",
         "CloudFront-Viewer-Country": "IN",
         "Content-Type": "application/json",
         "Host": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
-        "Postman-Token": "29be647d-c8f9-4484-9382-d3527622d9ae",
+        "Postman-Token": "27aa6dde-c62f-4305-a495-a148a1fecb20",
         "User-Agent": "PostmanRuntime/7.37.3",
-        "Via": "1.1 e8682ea46bd23579ca68ac92490e8e4a.cloudfront.net (CloudFront)",
-        "X-Amz-Cf-Id": "2mViFnP8QvtdiQNda6ig3jPi-FWTOsJhoxK20ijny6NITqDDPUEkMg==",
-        "X-Amzn-Trace-Id": "Root=1-667431a5-0504af711ec417c2387f6ddf",
-        "X-Forwarded-For": "42.111.216.90, 15.158.25.240",
+        "Via": "1.1 30c122bd8d8efabc1fd1b3b11bfb53ea.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "BhzriSYijUbbX6sv1gXdIwk5V7xCbHU6V1jXwtW9KjhQD-nbk9ZnCw==",
+        "X-Amzn-Trace-Id": "Root=1-66766b37-6df5e84724cf46455d675394",
+        "X-Forwarded-For": "49.36.91.203, 15.158.25.209",
         "X-Forwarded-Port": "443",
         "X-Forwarded-Proto": "https"
     },
@@ -46,7 +46,7 @@
             "false"
         ],
         "CloudFront-Viewer-ASN": [
-            "38266"
+            "55836"
         ],
         "CloudFront-Viewer-Country": [
             "IN"
@@ -58,22 +58,22 @@
             "vw9t8uyzli.execute-api.us-east-1.amazonaws.com"
         ],
         "Postman-Token": [
-            "29be647d-c8f9-4484-9382-d3527622d9ae"
+            "27aa6dde-c62f-4305-a495-a148a1fecb20"
         ],
         "User-Agent": [
             "PostmanRuntime/7.37.3"
         ],
         "Via": [
-            "1.1 e8682ea46bd23579ca68ac92490e8e4a.cloudfront.net (CloudFront)"
+            "1.1 30c122bd8d8efabc1fd1b3b11bfb53ea.cloudfront.net (CloudFront)"
         ],
         "X-Amz-Cf-Id": [
-            "2mViFnP8QvtdiQNda6ig3jPi-FWTOsJhoxK20ijny6NITqDDPUEkMg=="
+            "BhzriSYijUbbX6sv1gXdIwk5V7xCbHU6V1jXwtW9KjhQD-nbk9ZnCw=="
         ],
         "X-Amzn-Trace-Id": [
-            "Root=1-667431a5-0504af711ec417c2387f6ddf"
+            "Root=1-66766b37-6df5e84724cf46455d675394"
         ],
         "X-Forwarded-For": [
-            "42.111.216.90, 15.158.25.240"
+            "49.36.91.203, 15.158.25.209"
         ],
         "X-Forwarded-Port": [
             "443"
@@ -90,21 +90,21 @@
         "resourceId": "6unv8h",
         "resourcePath": "/label",
         "httpMethod": "POST",
-        "extendedRequestId": "Zqyx4E9QoAMENpQ=",
-        "requestTime": "20/Jun/2024:13:41:57 +0000",
+        "extendedRequestId": "ZwWwrFBAoAMEK1g=",
+        "requestTime": "22/Jun/2024:06:12:07 +0000",
         "path": "/Prod/label",
         "accountId": "213387745654",
         "protocol": "HTTP/1.1",
         "stage": "Prod",
         "domainPrefix": "vw9t8uyzli",
-        "requestTimeEpoch": 1718890917338,
-        "requestId": "bb188c0b-c302-492c-b321-a845baae2b66",
+        "requestTimeEpoch": 1719036727218,
+        "requestId": "9151cbf7-2d01-472c-b5d0-54df892bc985",
         "identity": {
             "cognitoIdentityPoolId": null,
             "accountId": null,
             "cognitoIdentityId": null,
             "caller": null,
-            "sourceIp": "42.111.216.90",
+            "sourceIp": "49.36.91.203",
             "principalOrgId": null,
             "accessKey": null,
             "cognitoAuthenticationType": null,
@@ -117,6 +117,6 @@
         "deploymentId": "v5wvzb",
         "apiId": "vw9t8uyzli"
     },
-    "body": "{\n    \"orderId\": 433044190,\n    \"carrierCode\": \"stamps_com\",\n    \"serviceCode\": \"usps_ground_advantage\",\n    \"confirmation\": \"none\",\n    \"shipDate\": \"2024-06-24\",\n    \"testLabel\": false,\n    \"isCreateLabel\": true,\n    \"isLabelPrinted\": true\n}",
+    "body": "{\n    \"orderId\": 433827747,\n    \"carrierCode\": \"stamps_com\",\n    \"serviceCode\": \"usps_priority_mail\",\n    \"confirmation\": \"none\",\n    \"shipDate\": \"2024-06-24\",\n    \"testLabel\": false,\n    \"isCreateLabel\": true,\n    \"isLabelPrinted\": true,\n    \"weight\": {\n        \"value\": 7,\n        \"units\": \"ounces\"\n    },\n    \"dimensions\": {\n        \"units\": \"inches\",\n        \"length\": 7,\n        \"width\": 7,\n        \"height\": 7\n    }\n}",
     "isBase64Encoded": false
 }

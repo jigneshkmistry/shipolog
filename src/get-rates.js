@@ -19,6 +19,7 @@ exports.handler = async (event) => {
 
     try {
         console.log("Event : " + JSON.stringify(event));
+        console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
         var result = (await getShippingRatesAsync(body)).toJSON();
 

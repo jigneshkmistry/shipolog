@@ -2,21 +2,23 @@
 
 const util = require('util');
 var shipstationAPI = require('node-shipstation');
-const dynamodb = require('aws-sdk/clients/dynamodb')
 const _ = require('lodash');
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, BatchWriteCommand, GetCommand, PutCommand } = require('@aws-sdk/lib-dynamodb');
 
 //#endregion
 
 //#region INITIALIZATION
 
-const docClient = new dynamodb.DocumentClient({ region: 'us-east-1' })
+const client = new DynamoDBClient({ region: 'us-east-1' });
+const docClient = DynamoDBDocumentClient.from(client);
 const BATCH_RECORD_COUNT = 20;
 var shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
 const getOrdersAsync = util.promisify(shipstation.getOrders);
 const getStoreAsync = util.promisify(shipstation.getStore);
 const PK = `ACC#${process.env.api_key}`;
 const SK = `METADATA#${process.env.api_key}`;
-const ORDER_WITH_ITEM_TABLE_NAME =  'OrderWithItem';
+const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 
 //#endregion
 
@@ -27,6 +29,7 @@ exports.handler = async (event) => {
     let lastSyncDate;
 
     try {
+        console.log("Event : " + JSON.stringify(event));
         console.log("Event : " + JSON.stringify(event));
         var result = await getOrdersFromShipStation(event);
 
@@ -170,12 +173,12 @@ async function storeOrderToDynamoDB(batchWriteRequests) {
 
     for (var cnkIndx in chunks) {
 
-        const params = {
+        const command = new BatchWriteCommand({
             RequestItems: {
                 [ORDER_WITH_ITEM_TABLE_NAME]: chunks[cnkIndx]
             }
-        };
-        await docClient.batchWrite(params).promise()
+        });
+        await docClient.send(command)
     }
 }
 
@@ -205,11 +208,13 @@ function prepareAPIResponseData(result){
 }
 
 async function getLastOrderSyncDate() {
-    const params = {
+
+    const command = new GetCommand({
         TableName: ORDER_WITH_ITEM_TABLE_NAME,
-        Key: { PK, SK },
-    };
-    const result = (await docClient.get(params).promise()).Item;
+        Key: { PK, SK }
+    });
+
+    const result = (await docClient.send(command)).Item;
     return result?.lastSyncDate ? result.lastSyncDate : "";
 }
 
@@ -220,7 +225,13 @@ async function updateLastOrderSyncDate(lastSyncDate) {
         SK,
         lastSyncDate
     };
-    return await docClient.put({ TableName: ORDER_WITH_ITEM_TABLE_NAME, Item }).promise();
+
+    const command = new PutCommand({
+        TableName: ORDER_WITH_ITEM_TABLE_NAME,
+        Item
+      });
+  
+    return await docClient.send(command);;
 }
 
 
