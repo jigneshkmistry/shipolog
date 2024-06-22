@@ -26,6 +26,7 @@ const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 
 exports.handler = async (event) => {
     let ordersToSyncToDynamo = [];
+    let orders = [];
     let lastSyncDate;
 
     try {
