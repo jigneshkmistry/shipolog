@@ -30,7 +30,6 @@ exports.handler = async (event) => {
 
     try {
         console.log("Event : " + JSON.stringify(event));
-        console.log("Event : " + JSON.stringify(event));
         var result = await getOrdersFromShipStation(event);
 
         if (result.statusCode === 200) {

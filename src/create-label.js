@@ -23,7 +23,6 @@ const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 exports.handler = async (event, context) => {
     try {
         console.log("Event : " + JSON.stringify(event));
-        console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
         
         let result = (await setLabelForOrderAsync(body)).toJSON();
