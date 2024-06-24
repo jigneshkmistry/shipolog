@@ -113,7 +113,13 @@ async function updateOrderInDynamoDB(result, orderItem) {
 function prepareAPIResponse(statusCode, body) {
     return {
         statusCode: statusCode,
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        headers: {
+            'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+            'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
+            'Content-Type': 'application/json',
+            'Strict-Transport-Security': 'max-age=31536000',
+        }
     };
 }
 
