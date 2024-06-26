@@ -10,6 +10,7 @@ const _ = require('lodash');
 
 var shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
 const getShippingRatesAsync = util.promisify(shipstation.getShippingRates);
+const getCarriersAsync = util.promisify(shipstation.getCarriers);
 
 //#endregion
 
@@ -18,13 +19,14 @@ const getShippingRatesAsync = util.promisify(shipstation.getShippingRates);
 exports.handler = async (event) => {
 
     try {
+        const promises = [];
+        let carrirList = [];
         console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
-        var result = (await getShippingRatesAsync(body)).toJSON();
 
-        if (result.statusCode === 200) {
-            result = _.sortBy(result.body, ['shipmentCost']);
-            return prepareAPIResponse(result.statusCode, result);
+        var carrirListResponse = (await getCarriersAsync()).toJSON();
+        if (carrirListResponse.statusCode === 200) {
+            carrirList = carrirListResponse.body;
         }
         else {
             return prepareAPIResponse(result.statusCode, {
@@ -32,6 +34,31 @@ exports.handler = async (event) => {
                 code: 'ERROR_IN_GET_RATES_API'
             });
         }
+
+        carrirList.forEach(element => {
+            const getRatesBody = { ...body };
+            getRatesBody.carrierCode = element.code;
+            promises.push(getShippingRatesAsync(getRatesBody))
+        });
+
+        let ratesByCarrierResponse = await Promise.all(promises);
+
+        result = ratesByCarrierResponse.map(x => {
+            const rateResponse = x.toJSON();
+            const req_body = JSON.parse(x.request.body);
+            const carrier = _.find(carrirList, { code: req_body.carrierCode });
+            if (rateResponse.statusCode === 200) {
+                carrier.services = _.sortBy(rateResponse.body, ['shipmentCost']);
+                return carrier;
+            }
+            else {
+                carrier.services = [];
+                carrier.error = rateResponse?.body?.ExceptionMessage ? rateResponse?.body?.ExceptionMessage : "An unexpected error occurs";
+                return carrier;
+            }
+        });
+
+        return prepareAPIResponse(200, result);
     }
     catch (err) {
         console.log("Error in API :" + JSON.stringify(err));
