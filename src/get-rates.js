@@ -26,7 +26,7 @@ exports.handler = async (event) => {
 
         var carrirListResponse = (await getCarriersAsync()).toJSON();
         if (carrirListResponse.statusCode === 200) {
-            carrirList = carrirListResponse.body;
+            carrirList = _.uniqBy(carrirListResponse.body, 'code'); 
         }
         else {
             return prepareAPIResponse(result.statusCode, {
@@ -79,6 +79,8 @@ function prepareAPIResponse(statusCode, body) {
         body: JSON.stringify(body),
         headers: {
             'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+            'Access-Control-Allow-Methods': '*',
+            'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
             'Content-Type': 'application/json',
             'Strict-Transport-Security': 'max-age=31536000',

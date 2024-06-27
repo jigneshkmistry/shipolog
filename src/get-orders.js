@@ -98,6 +98,8 @@ function prepareAPIResponse(statusCode, body) {
         body: JSON.stringify(body),
         headers: {
             'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+            'Access-Control-Allow-Methods': '*',
+            'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
             'Content-Type': 'application/json',
             'Strict-Transport-Security': 'max-age=31536000',
@@ -200,6 +202,8 @@ function prepareAPIResponseData(result){
             billTo: ord.billTo,
             weight: ord.weight,
             dimensions: ord.dimensions,
+            shipByDate: ord.shipByDate,
+            shipDate: ord.shipDate,
             items: ord.items && ord.items.length > 0 ? ord.items.map(itm => {
                 return {
                     itemId: itm.orderItemId,

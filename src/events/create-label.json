@@ -13,13 +13,13 @@
         "CloudFront-Viewer-ASN": "55836",
         "CloudFront-Viewer-Country": "IN",
         "Content-Type": "application/json",
-        "Host": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
-        "Postman-Token": "27aa6dde-c62f-4305-a495-a148a1fecb20",
+        "Host": "yi146ktzqh.execute-api.us-east-1.amazonaws.com",
+        "Postman-Token": "a074398e-4ec6-4f30-ab48-db755601e554",
         "User-Agent": "PostmanRuntime/7.37.3",
-        "Via": "1.1 30c122bd8d8efabc1fd1b3b11bfb53ea.cloudfront.net (CloudFront)",
-        "X-Amz-Cf-Id": "BhzriSYijUbbX6sv1gXdIwk5V7xCbHU6V1jXwtW9KjhQD-nbk9ZnCw==",
-        "X-Amzn-Trace-Id": "Root=1-66766b37-6df5e84724cf46455d675394",
-        "X-Forwarded-For": "49.36.91.203, 15.158.25.209",
+        "Via": "1.1 a8ca4aee08b2f5c8f93f1ff2ca028ece.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "3YkBhEqIjXm9cKjwaN8DtlK3Utif9RbJRBov1dl01-__j2my_s3snA==",
+        "X-Amzn-Trace-Id": "Root=1-667cfdd2-52d29ea2261c3ceb2a855950",
+        "X-Forwarded-For": "49.43.32.17, 15.158.22.21",
         "X-Forwarded-Port": "443",
         "X-Forwarded-Proto": "https"
     },
@@ -55,25 +55,25 @@
             "application/json"
         ],
         "Host": [
-            "vw9t8uyzli.execute-api.us-east-1.amazonaws.com"
+            "yi146ktzqh.execute-api.us-east-1.amazonaws.com"
         ],
         "Postman-Token": [
-            "27aa6dde-c62f-4305-a495-a148a1fecb20"
+            "a074398e-4ec6-4f30-ab48-db755601e554"
         ],
         "User-Agent": [
             "PostmanRuntime/7.37.3"
         ],
         "Via": [
-            "1.1 30c122bd8d8efabc1fd1b3b11bfb53ea.cloudfront.net (CloudFront)"
+            "1.1 a8ca4aee08b2f5c8f93f1ff2ca028ece.cloudfront.net (CloudFront)"
         ],
         "X-Amz-Cf-Id": [
-            "BhzriSYijUbbX6sv1gXdIwk5V7xCbHU6V1jXwtW9KjhQD-nbk9ZnCw=="
+            "3YkBhEqIjXm9cKjwaN8DtlK3Utif9RbJRBov1dl01-__j2my_s3snA=="
         ],
         "X-Amzn-Trace-Id": [
-            "Root=1-66766b37-6df5e84724cf46455d675394"
+            "Root=1-667cfdd2-52d29ea2261c3ceb2a855950"
         ],
         "X-Forwarded-For": [
-            "49.36.91.203, 15.158.25.209"
+            "49.43.32.17, 15.158.22.21"
         ],
         "X-Forwarded-Port": [
             "443"
@@ -87,24 +87,24 @@
     "pathParameters": null,
     "stageVariables": null,
     "requestContext": {
-        "resourceId": "6unv8h",
+        "resourceId": "lvb2uh",
         "resourcePath": "/label",
         "httpMethod": "POST",
-        "extendedRequestId": "ZwWwrFBAoAMEK1g=",
-        "requestTime": "22/Jun/2024:06:12:07 +0000",
+        "extendedRequestId": "aAyY-H8OIAMEbXQ=",
+        "requestTime": "27/Jun/2024:05:51:14 +0000",
         "path": "/Prod/label",
         "accountId": "213387745654",
         "protocol": "HTTP/1.1",
         "stage": "Prod",
-        "domainPrefix": "vw9t8uyzli",
-        "requestTimeEpoch": 1719036727218,
-        "requestId": "9151cbf7-2d01-472c-b5d0-54df892bc985",
+        "domainPrefix": "yi146ktzqh",
+        "requestTimeEpoch": 1719467474795,
+        "requestId": "741c5841-4f26-49d5-9e33-22a1d4ba88b3",
         "identity": {
             "cognitoIdentityPoolId": null,
             "accountId": null,
             "cognitoIdentityId": null,
             "caller": null,
-            "sourceIp": "49.36.91.203",
+            "sourceIp": "49.43.32.17",
             "principalOrgId": null,
             "accessKey": null,
             "cognitoAuthenticationType": null,
@@ -113,10 +113,10 @@
             "userAgent": "PostmanRuntime/7.37.3",
             "user": null
         },
-        "domainName": "vw9t8uyzli.execute-api.us-east-1.amazonaws.com",
-        "deploymentId": "v5wvzb",
-        "apiId": "vw9t8uyzli"
+        "domainName": "yi146ktzqh.execute-api.us-east-1.amazonaws.com",
+        "deploymentId": "q2wbow",
+        "apiId": "yi146ktzqh"
     },
-    "body": "{\n    \"orderId\": 433827747,\n    \"carrierCode\": \"stamps_com\",\n    \"serviceCode\": \"usps_priority_mail\",\n    \"confirmation\": \"none\",\n    \"shipDate\": \"2024-06-24\",\n    \"testLabel\": false,\n    \"isCreateLabel\": true,\n    \"isLabelPrinted\": true,\n    \"weight\": {\n        \"value\": 7,\n        \"units\": \"ounces\"\n    },\n    \"dimensions\": {\n        \"units\": \"inches\",\n        \"length\": 7,\n        \"width\": 7,\n        \"height\": 7\n    }\n}",
+    "body": "[\n    {\n        \"orderId\": 435623916,\n        \"carrierCode\": \"stamps_com\",\n        \"serviceCode\": \"usps_ground_advantage\",\n        \"confirmation\": \"none\",\n        \"shipDate\": \"2024-06-25\",\n        \"testLabel\": false,\n        \"isCreateLabel\": true,\n        \"isLabelPrinted\": true,\n        \"weight\": {\n            \"value\": 7,\n            \"units\": \"ounces\"\n        },\n        \"dimensions\": {\n            \"units\": \"inches\",\n            \"length\": 7,\n            \"width\": 7,\n            \"height\": 7\n        }\n    },\n    {\n        \"orderId\": 433827747,\n        \"carrierCode\": \"stamps_com\",\n        \"serviceCode\": \"usps_priority_mail\",\n        \"confirmation\": \"none\",\n        \"shipDate\": \"2024-06-29\",\n        \"testLabel\": false,\n        \"isCreateLabel\": true,\n        \"isLabelPrinted\": true,\n        \"weight\": {\n            \"value\": 7,\n            \"units\": \"ounces\"\n        },\n        \"dimensions\": {\n            \"units\": \"inches\",\n            \"length\": 7,\n            \"width\": 7,\n            \"height\": 7\n        }\n    }\n]",
     "isBase64Encoded": false
 }

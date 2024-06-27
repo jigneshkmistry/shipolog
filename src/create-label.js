@@ -24,42 +24,11 @@ const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 exports.handler = async (event, context) => {
     try {
         console.log("Event : " + JSON.stringify(event));
-        const body = event.body ? JSON.parse(event.body) : {};
+        let body = event.body ? JSON.parse(event.body) : [];
+
+        let result = await createLabelForOrderBulk(body)
         
-        let result = (await setLabelForOrderAsync(body)).toJSON();
-
-        if (result.statusCode === 200) {
-
-            result = result.body;
-            const orderItem = {
-                PK: PK,
-                SK: `ORD#${result.orderId}`,
-                shipmentId: result.shipmentId,
-                trackingNumber: result.trackingNumber,
-                orderStatus: 'READY_TO_PICK',
-                labelCreated: result.trackingNumber && result.shipmentId ? true : false,
-                labelPrinted: result.trackingNumber && result.shipmentId ? true : false,
-                weight: body.weight,
-                packageDimensions: body.dimensions
-            }
-
-            await updateOrderInDynamoDB(result, orderItem);
-
-            return prepareAPIResponse(200, {
-                orderId: result.orderId,
-                shipmentId: orderItem.shipmentId,
-                trackingNumber: orderItem.trackingNumber,
-                orderStatus: orderItem.orderStatus,
-                labelCreated: orderItem.labelCreated,
-                labelPrinted: orderItem.labelPrinted,
-            });
-        }
-        else {
-            return prepareAPIResponse(result.statusCode, {
-                message: result?.body?.ExceptionMessage ? result?.body?.ExceptionMessage : "An unexpected error occurs. Please try again",
-                code: 'ERROR_IN_CREATE_LABEL_API'
-            });
-        }
+        return prepareAPIResponse(200, result);
     }
     catch (err) {
         console.log("Error in API :" + JSON.stringify(err));
@@ -116,11 +85,76 @@ function prepareAPIResponse(statusCode, body) {
         body: JSON.stringify(body),
         headers: {
             'Access-Control-Allow-Origin': '*', // Required for CORS support to work
+            'Access-Control-Allow-Methods': '*',
+            'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
             'Content-Type': 'application/json',
             'Strict-Transport-Security': 'max-age=31536000',
         }
     };
+}
+
+async function createLabelForOrder(order) {
+
+    let result = (await setLabelForOrderAsync(order)).toJSON();
+
+    if (result.statusCode === 200) {
+
+        result = result.body;
+        const orderItem = {
+            PK: PK,
+            SK: `ORD#${result.orderId}`,
+            shipmentId: result.shipmentId,
+            trackingNumber: result.trackingNumber,
+            orderStatus: 'READY_TO_PICK',
+            labelCreated: result.trackingNumber && result.shipmentId ? true : false,
+            labelPrinted: result.trackingNumber && result.shipmentId ? true : false,
+            weight: order.weight,
+            packageDimensions: order.dimensions
+        }
+
+        await updateOrderInDynamoDB(result, orderItem);
+
+        order.result = {
+            shipmentId: orderItem.shipmentId,
+            trackingNumber: orderItem.trackingNumber,
+            orderStatus: orderItem.orderStatus
+        };
+    }
+    else if(result.statusCode === 500) {
+
+        order.result = {
+            message: result?.body?.ExceptionMessage ? result?.body?.ExceptionMessage : "An unexpected error occurs. Please try again",
+            statusCode : result.statusCode,
+            code: 'ERROR_IN_CREATE_LABEL_API'
+        }
+    }
+    else {
+        order.result = {
+            message: result?.body?.Message ? result?.body?.Message : "An unexpected error occurs. Please try again",
+            statusCode: result.statusCode,
+            code: 'ERROR_IN_CREATE_LABEL_API'
+        }
+    }
+
+    return order;
+}
+
+async function createLabelForOrderBulk(orders) {
+    let promises = [];
+
+    if (!Array.isArray(orders)) {
+        orders = [orders]
+    }
+
+    for (var orderIndx in orders) {
+
+        promises.push(createLabelForOrder(orders[orderIndx]));
+    }
+
+    let result = await Promise.all(promises);
+
+    return result;
 }
 
 //#endregion
