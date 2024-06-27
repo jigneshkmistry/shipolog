@@ -20,6 +20,11 @@ Globals:
     Timeout: 100
     Architectures:
         - x86_64
+  Api:
+    Cors:
+      AllowMethods: "'*'"
+      AllowHeaders: "'*'"
+      AllowOrigin: "'*'"
 
 Resources:
   
