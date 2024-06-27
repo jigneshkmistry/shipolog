@@ -47,7 +47,8 @@ Resources:
   getOrdersFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/get-orders.handler
+      Handler: get-orders.handler
+      CodeUri: ./src/api-get-orders
       Timeout: 800
       Environment:
         Variables:
@@ -67,7 +68,8 @@ Resources:
   getRatesFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/get-rates.handler
+      Handler: get-rates.handler
+      CodeUri: ./src/api-get-rates
       Environment:
         Variables:
           api_key: !Ref apiKey
@@ -82,7 +84,8 @@ Resources:
   createLabelFunction:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: src/create-label.handler
+      Handler: create-label.handler
+      CodeUri: ./src/api-create-label
       Environment:
         Variables:
           api_key: !Ref apiKey

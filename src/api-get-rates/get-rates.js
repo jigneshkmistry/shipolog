@@ -22,6 +22,7 @@ exports.handler = async (event) => {
         const promises = [];
         let carrirList = [];
         console.log("Event : " + JSON.stringify(event));
+        console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
 
         var carrirListResponse = (await getCarriersAsync()).toJSON();
