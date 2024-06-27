@@ -22,7 +22,6 @@ exports.handler = async (event) => {
         const promises = [];
         let carrirList = [];
         console.log("Event : " + JSON.stringify(event));
-        console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
 
         var carrirListResponse = (await getCarriersAsync()).toJSON();
@@ -30,8 +29,8 @@ exports.handler = async (event) => {
             carrirList = _.uniqBy(carrirListResponse.body, 'code'); 
         }
         else {
-            return prepareAPIResponse(result.statusCode, {
-                message: result?.body?.ExceptionMessage ? result?.body?.ExceptionMessage : "An unexpected error occurs. Please try again",
+            return prepareAPIResponse(carrirListResponse.statusCode, {
+                message: carrirListResponse?.body?.ExceptionMessage ? carrirListResponse?.body?.ExceptionMessage : "An unexpected error occurs. Please try again",
                 code: 'ERROR_IN_GET_RATES_API'
             });
         }
@@ -44,7 +43,7 @@ exports.handler = async (event) => {
 
         let ratesByCarrierResponse = await Promise.all(promises);
 
-        result = ratesByCarrierResponse.map(x => {
+        let result = ratesByCarrierResponse.map(x => {
             const rateResponse = x.toJSON();
             const req_body = JSON.parse(x.request.body);
             const carrier = _.find(carrirList, { code: req_body.carrierCode });
