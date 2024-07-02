@@ -12,6 +12,9 @@ Parameters:
   secret:
     Type: String
     Description: Secret key for shipstation API
+  googleApiKey:
+    Type: String
+    Description: API key for google address API
 
 Globals:
   Function:
@@ -99,6 +102,21 @@ Resources:
           Type: Api
           Properties:
             Path: /label
+            Method: POST
+
+  validateAddress:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: get-validate-google-address.handler
+      CodeUri: ./src/api-google-address-validate
+      Environment:
+        Variables:
+          google_api_key: !Ref googleApiKey
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /validateAddress
             Method: POST
 
 Outputs:
