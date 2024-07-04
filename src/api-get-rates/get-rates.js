@@ -20,20 +20,9 @@ exports.handler = async (event) => {
 
     try {
         const promises = [];
-        let carrirList = [];
+        let carrirList = [{ code: 'ups_walleted' }, { code: 'stamps_com' }];
         console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
-
-        var carrirListResponse = (await getCarriersAsync()).toJSON();
-        if (carrirListResponse.statusCode === 200) {
-            carrirList = _.uniqBy(carrirListResponse.body, 'code'); 
-        }
-        else {
-            return prepareAPIResponse(carrirListResponse.statusCode, {
-                message: carrirListResponse?.body?.ExceptionMessage ? carrirListResponse?.body?.ExceptionMessage : "An unexpected error occurs. Please try again",
-                code: 'ERROR_IN_GET_RATES_API'
-            });
-        }
 
         carrirList.forEach(element => {
             const getRatesBody = { ...body };
@@ -42,9 +31,9 @@ exports.handler = async (event) => {
         });
 
         let ratesByCarrierResponse = await Promise.all(promises);
-
+      
         let result = ratesByCarrierResponse.map(x => {
-            const rateResponse = x.toJSON();
+            const rateResponse = x.toJSON();            
             const req_body = JSON.parse(x.request.body);
             const carrier = _.find(carrirList, { code: req_body.carrierCode });
             if (rateResponse.statusCode === 200) {
@@ -58,7 +47,10 @@ exports.handler = async (event) => {
             }
         });
 
-        return prepareAPIResponse(200, result);
+        // Extract the headers from the object with the maximum date
+        const maxDateHeaders = _.maxBy(ratesByCarrierResponse, response => new Date(response.headers.date)).headers;
+      
+        return prepareAPIResponse(200, result, maxDateHeaders);
     }
     catch (err) {
         console.log("Error in API :" + JSON.stringify(err));
@@ -73,13 +65,16 @@ exports.handler = async (event) => {
 
 //#region UTILS
 
-function prepareAPIResponse(statusCode, body) {
+function prepareAPIResponse(statusCode, body, headers) {
     return {
         statusCode: statusCode,
         body: JSON.stringify(body),
         headers: {
             'Access-Control-Allow-Origin': '*', // Required for CORS support to work
             'Access-Control-Allow-Methods': '*',
+            'X-Rate-Limit-Limit': headers['x-rate-limit-limit'],
+            'X-Rate-Limit-Reset': headers['x-rate-limit-reset'],
+            'X-Rate-Limit-Remaining': headers['x-rate-limit-remaining'],
             'Access-Control-Allow-Headers': '*',
             'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
             'Content-Type': 'application/json',

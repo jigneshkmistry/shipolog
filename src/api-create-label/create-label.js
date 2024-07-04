@@ -1,6 +1,7 @@
 //#region IMPORT
 
 const util = require('util');
+const _ = require('lodash');
 var shipstationAPI = require('node-shipstation');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
@@ -27,8 +28,11 @@ exports.handler = async (event, context) => {
         let body = event.body ? JSON.parse(event.body) : [];
 
         let result = await createLabelForOrderBulk(body)
+            
+        // Extract the headers from the object with the maximum date
+        const maxDateHeaders = _.maxBy(result, response => new Date(response.headers.date)).headers;
         
-        return prepareAPIResponse(200, result);
+        return prepareAPIResponse(200, result, maxDateHeaders);
     }
     catch (err) {
         console.log("Error in API :" + JSON.stringify(err));
@@ -79,7 +83,7 @@ async function updateOrderInDynamoDB(result, orderItem) {
 
 //#region UTILS
 
-function prepareAPIResponse(statusCode, body) {
+function prepareAPIResponse(statusCode, body, headers) {
     return {
         statusCode: statusCode,
         body: JSON.stringify(body),
@@ -87,6 +91,9 @@ function prepareAPIResponse(statusCode, body) {
             'Access-Control-Allow-Origin': '*', // Required for CORS support to work
             'Access-Control-Allow-Methods': '*',
             'Access-Control-Allow-Headers': '*',
+            'X-Rate-Limit-Limit': headers['x-rate-limit-limit'],
+            'X-Rate-Limit-Reset': headers['x-rate-limit-reset'],
+            'X-Rate-Limit-Remaining': headers['x-rate-limit-remaining'],
             'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
             'Content-Type': 'application/json',
             'Strict-Transport-Security': 'max-age=31536000',
@@ -136,7 +143,7 @@ async function createLabelForOrder(order) {
             code: 'ERROR_IN_CREATE_LABEL_API'
         }
     }
-
+    order.headers = result?.headers;
     return order;
 }
 

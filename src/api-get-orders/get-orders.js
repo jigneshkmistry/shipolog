@@ -64,7 +64,7 @@ exports.handler = async (event) => {
             });
         }
 
-        return prepareAPIResponse(result.statusCode, result.body);
+        return prepareAPIResponse(result.statusCode, result.body,result.headers);
     }
     catch (err) {
 
@@ -92,7 +92,7 @@ async function getOrdersFromShipStation(event) {
     return (await getOrdersAsync(queryParams)).toJSON();
 }
 
-function prepareAPIResponse(statusCode, body) {
+function prepareAPIResponse(statusCode, body,headers) {
     return {
         statusCode: statusCode,
         body: JSON.stringify(body),
@@ -100,6 +100,9 @@ function prepareAPIResponse(statusCode, body) {
             'Access-Control-Allow-Origin': '*', // Required for CORS support to work
             'Access-Control-Allow-Methods': '*',
             'Access-Control-Allow-Headers': '*',
+            'X-Rate-Limit-Limit': headers['x-rate-limit-limit'],
+            'X-Rate-Limit-Reset': headers['x-rate-limit-reset'],
+            'X-Rate-Limit-Remaining': headers['x-rate-limit-remaining'],
             'Access-Control-Allow-Credentials': 'true', // Required for cookies, authorization headers with HTTPS
             'Content-Type': 'application/json',
             'Strict-Transport-Security': 'max-age=31536000',
