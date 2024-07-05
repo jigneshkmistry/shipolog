@@ -15,6 +15,9 @@ Parameters:
   googleApiKey:
     Type: String
     Description: API key for google address API
+  connectionString:
+    Type: String
+    Description: Connection string for RDS database.
 
 Globals:
   Function:
@@ -117,6 +120,38 @@ Resources:
           Type: Api
           Properties:
             Path: /validateAddress
+            Method: POST
+
+  getPartnersFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: get-partners.handler
+      CodeUri: ./src/api-get-partners
+      Timeout: 800
+      Environment:
+        Variables:
+          connectionString: !Ref connectionString
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /partners
+            Method: GET
+
+  registerUserFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: register-user.handler
+      CodeUri: ./src/api-register-user
+      Timeout: 800
+      Environment:
+        Variables:
+          connectionString: !Ref connectionString
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /register
             Method: POST
 
 Outputs:

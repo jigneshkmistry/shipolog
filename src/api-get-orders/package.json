@@ -12,6 +12,5 @@
         "@aws-sdk/lib-dynamodb": "^3.602.0"
     },
     "scripts": {
-        "start": "node ./src/test/test-get-orders.js"
     }
 }

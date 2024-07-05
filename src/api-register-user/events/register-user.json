@@ -1,0 +1,122 @@
+{
+    "resource": "/register",
+    "path": "/register",
+    "httpMethod": "POST",
+    "headers": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "CloudFront-Forwarded-Proto": "https",
+        "CloudFront-Is-Desktop-Viewer": "true",
+        "CloudFront-Is-Mobile-Viewer": "false",
+        "CloudFront-Is-SmartTV-Viewer": "false",
+        "CloudFront-Is-Tablet-Viewer": "false",
+        "CloudFront-Viewer-ASN": "55836",
+        "CloudFront-Viewer-Country": "IN",
+        "Content-Type": "application/json",
+        "Host": "yi146ktzqh.execute-api.us-east-1.amazonaws.com",
+        "Postman-Token": "e812d79a-dd8e-4350-afd3-b793085739bf",
+        "User-Agent": "PostmanRuntime/7.37.3",
+        "Via": "1.1 9e8c29342ff6f7610166562f3559cbe4.cloudfront.net (CloudFront)",
+        "X-Amz-Cf-Id": "_HamgI7O9tFTtwbBFLNiP2UEiGDnxNZccxJhP8d7xgH8MXw8lWjpbw==",
+        "X-Amzn-Trace-Id": "Root=1-66878421-6df892347ff80a9c4e430d02",
+        "X-Forwarded-For": "49.43.32.228, 15.158.22.6",
+        "X-Forwarded-Port": "443",
+        "X-Forwarded-Proto": "https"
+    },
+    "multiValueHeaders": {
+        "Accept": [
+            "*/*"
+        ],
+        "Accept-Encoding": [
+            "gzip, deflate, br"
+        ],
+        "CloudFront-Forwarded-Proto": [
+            "https"
+        ],
+        "CloudFront-Is-Desktop-Viewer": [
+            "true"
+        ],
+        "CloudFront-Is-Mobile-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-SmartTV-Viewer": [
+            "false"
+        ],
+        "CloudFront-Is-Tablet-Viewer": [
+            "false"
+        ],
+        "CloudFront-Viewer-ASN": [
+            "55836"
+        ],
+        "CloudFront-Viewer-Country": [
+            "IN"
+        ],
+        "Content-Type": [
+            "application/json"
+        ],
+        "Host": [
+            "yi146ktzqh.execute-api.us-east-1.amazonaws.com"
+        ],
+        "Postman-Token": [
+            "e812d79a-dd8e-4350-afd3-b793085739bf"
+        ],
+        "User-Agent": [
+            "PostmanRuntime/7.37.3"
+        ],
+        "Via": [
+            "1.1 9e8c29342ff6f7610166562f3559cbe4.cloudfront.net (CloudFront)"
+        ],
+        "X-Amz-Cf-Id": [
+            "_HamgI7O9tFTtwbBFLNiP2UEiGDnxNZccxJhP8d7xgH8MXw8lWjpbw=="
+        ],
+        "X-Amzn-Trace-Id": [
+            "Root=1-66878421-6df892347ff80a9c4e430d02"
+        ],
+        "X-Forwarded-For": [
+            "49.43.32.228, 15.158.22.6"
+        ],
+        "X-Forwarded-Port": [
+            "443"
+        ],
+        "X-Forwarded-Proto": [
+            "https"
+        ]
+    },
+    "queryStringParameters": null,
+    "multiValueQueryStringParameters": null,
+    "pathParameters": null,
+    "stageVariables": null,
+    "requestContext": {
+        "resourceId": "b2ez47",
+        "resourcePath": "/register",
+        "httpMethod": "POST",
+        "extendedRequestId": "abGVOFJcIAMEZjw=",
+        "requestTime": "05/Jul/2024:05:26:57 +0000",
+        "path": "/Prod/register",
+        "accountId": "213387745654",
+        "protocol": "HTTP/1.1",
+        "stage": "Prod",
+        "domainPrefix": "yi146ktzqh",
+        "requestTimeEpoch": 1720157217194,
+        "requestId": "f442cd20-9c23-4580-8e7d-40fc8b9ced2b",
+        "identity": {
+            "cognitoIdentityPoolId": null,
+            "accountId": null,
+            "cognitoIdentityId": null,
+            "caller": null,
+            "sourceIp": "49.43.32.228",
+            "principalOrgId": null,
+            "accessKey": null,
+            "cognitoAuthenticationType": null,
+            "cognitoAuthenticationProvider": null,
+            "userArn": null,
+            "userAgent": "PostmanRuntime/7.37.3",
+            "user": null
+        },
+        "domainName": "yi146ktzqh.execute-api.us-east-1.amazonaws.com",
+        "deploymentId": "u7pzzs",
+        "apiId": "yi146ktzqh"
+    },
+    "body": "{\n    \"client\": {\n        \"clientname\": \"Ms. Chefs Corporation\",\n        \"clientemail\": \"info@mschefs.com\",\n        \"api_key\": \"abc\",\n        \"secret\": \"def\"\n    },\n    \"warehouse\": {\n        \"warehousename\": \"\",\n        \"warehousestreet1\": \"warehousestreet1\",\n        \"warehousestreet2\": \"warehousestreet1\",\n        \"warehousecity\": \"warehousecity\",\n        \"warehousezip\": \"warehousezip\",\n        \"warehousestate\": \"warehousestate\",\n        \"warehousecountry\": \"warehousecountry\",\n        \"googlevalidated\": false,\n        \"isalsoreturnaddress\": false,\n        \"isbillingaddress\": true\n    },\n    \"username\": \"Jignesh Mistry\",\n    \"email\": \"jigneshkmistry@gmail.com\",\n    \"partnenr_id\": \"1\"\n}",
+    "isBase64Encoded": false
+}

@@ -21,7 +21,7 @@ s3_prefix = "shipolog-app"
 region = "us-east-1"
 disable_rollback = true
 image_repositories = []
-parameter_overrides = "apiKey=\"fa754a40f1ef4ff698242ce6adaaa899\" secret=\"8764e80c4ceb4e03830b056f982f03b9\" googleApiKey=\"AIzaSyAY9gltBIGP9mNoGP387BrjWFi-K3883vc\""
+parameter_overrides = "apiKey=\"fa754a40f1ef4ff698242ce6adaaa899\" secret=\"8764e80c4ceb4e03830b056f982f03b9\" googleApiKey=\"AIzaSyAY9gltBIGP9mNoGP387BrjWFi-K3883vc\" connectionString=\"postgres://postgres:F00tball@devshipolog3.ctlqnvlxqcmr.us-east-1.rds.amazonaws.com:5432/dev-shipolog\""
 
 [default.package.parameters]
 resolve_s3 = true

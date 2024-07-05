@@ -7,6 +7,5 @@
     "axios": "^1.7.2"
   },
   "scripts": {
-    "start": "node test/test-get-validate-google-address.js"
   }
 }
