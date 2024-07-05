@@ -5,6 +5,7 @@ const _ = require('lodash');
 var shipstationAPI = require('node-shipstation');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, UpdateCommand } = require('@aws-sdk/lib-dynamodb');
+const connectToDb = require('./pg-connect');
 
 //#endregion
 
@@ -13,8 +14,6 @@ const { DynamoDBDocumentClient, UpdateCommand } = require('@aws-sdk/lib-dynamodb
 const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
 const client = new DynamoDBClient({ region: AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
-const shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
-const setLabelForOrderAsync = util.promisify(shipstation.setLabelForOrder);
 const PK = `ACC#${process.env.api_key}`;
 const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 
@@ -23,11 +22,25 @@ const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 //#region HANDLER
 
 exports.handler = async (event, context) => {
-    try {
-        console.log("Event : " + JSON.stringify(event));
-        let body = event.body ? JSON.parse(event.body) : [];
 
-        let result = await createLabelForOrderBulk(body)
+    console.log("Event : " + JSON.stringify(event));
+    const db_client = await connectToDb(process.env.connectionString);
+    let shipstation;
+    try {
+        let body = event.body ? JSON.parse(event.body) : [];
+        const user_email = event?.headers?.['Shipolog-User-Email'];
+
+        if (user_email) {
+            console.log("user_email key used : " + user_email);
+            let client_row = await getClientByUser(db_client, user_email);
+            shipstation = new shipstationAPI(client_row.apikey, client_row.apisecret);
+        }
+        else {
+            console.log("hardcoded key used : ");
+            shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
+        }
+
+        let result = await createLabelForOrderBulk(shipstation,body)
             
         // Extract the headers from the object with the maximum date
         const maxDateHeaders = _.maxBy(result, response => new Date(response.headers.date)).headers;
@@ -101,8 +114,9 @@ function prepareAPIResponse(statusCode, body, headers) {
     };
 }
 
-async function createLabelForOrder(order) {
+async function createLabelForOrder(shipstation,order) {
 
+    const setLabelForOrderAsync = util.promisify(shipstation.setLabelForOrder);
     let result = (await setLabelForOrderAsync(order)).toJSON();
 
     if (result.statusCode === 200) {
@@ -147,7 +161,7 @@ async function createLabelForOrder(order) {
     return order;
 }
 
-async function createLabelForOrderBulk(orders) {
+async function createLabelForOrderBulk(shipstation,orders) {
     let promises = [];
 
     if (!Array.isArray(orders)) {
@@ -156,12 +170,22 @@ async function createLabelForOrderBulk(orders) {
 
     for (var orderIndx in orders) {
 
-        promises.push(createLabelForOrder(orders[orderIndx]));
+        promises.push(createLabelForOrder(shipstation,orders[orderIndx]));
     }
 
     let result = await Promise.all(promises);
 
     return result;
+}
+
+//#endregion
+
+//#region RDS
+
+async function getClientByUser(client, userEmail) {
+
+    const query = `select c.clientid,c.apikey,c.apisecret from users u inner join clients c on u.clientid = c.clientid where u.useremail = $1`
+    return _.get(await client.query(query, [userEmail]), 'rows.0')
 }
 
 //#endregion

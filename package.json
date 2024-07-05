@@ -8,6 +8,8 @@
     "devDependencies": {
     },
     "scripts": {
-        "start": "node ./src/test/test-get-orders.js"
+        "start-get-orders": "node ./src/api-get-orders/test/test-get-orders.js",
+        "start-get-rates": "node ./src/api-get-rates/test/test-get-rates.js",
+        "start-create-label": "node ./src/api-create-label/test/test-create-label.js"
     }
 }

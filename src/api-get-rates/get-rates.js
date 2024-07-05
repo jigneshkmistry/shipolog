@@ -3,14 +3,12 @@
 const util = require('util');
 var shipstationAPI = require('node-shipstation');
 const _ = require('lodash');
+const connectToDb = require('./pg-connect');
 
 //#endregion
 
 //#region INITIALIZATION
 
-var shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
-const getShippingRatesAsync = util.promisify(shipstation.getShippingRates);
-const getCarriersAsync = util.promisify(shipstation.getCarriers);
 
 //#endregion
 
@@ -18,12 +16,27 @@ const getCarriersAsync = util.promisify(shipstation.getCarriers);
 
 exports.handler = async (event) => {
 
+    console.log("Event : " + JSON.stringify(event));
+    const db_client = await connectToDb(process.env.connectionString);
     try {
         const promises = [];
+        let shipstation;
         let carrirList = [{ code: 'ups_walleted' }, { code: 'stamps_com' }];
-        console.log("Event : " + JSON.stringify(event));
         const body = event.body ? JSON.parse(event.body) : {};
+        const user_email = event?.headers?.['Shipolog-User-Email'];
 
+        if (user_email) {
+            console.log("user_email key used : " + user_email);
+            let client_row = await getClientByUser(db_client, user_email);
+            shipstation = new shipstationAPI(client_row.apikey, client_row.apisecret);
+        }
+        else {
+            console.log("hardcoded key used : ");
+            shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
+        }
+
+        const getShippingRatesAsync = util.promisify(shipstation.getShippingRates);
+        
         carrirList.forEach(element => {
             const getRatesBody = { ...body };
             getRatesBody.carrierCode = element.code;
@@ -81,6 +94,16 @@ function prepareAPIResponse(statusCode, body, headers) {
             'Strict-Transport-Security': 'max-age=31536000',
           }
     };
+}
+
+//#endregion
+
+//#region RDS
+
+async function getClientByUser(client, userEmail) {
+
+    const query = `select c.clientid,c.apikey,c.apisecret from users u inner join clients c on u.clientid = c.clientid where u.useremail = $1`
+    return _.get(await client.query(query, [userEmail]), 'rows.0')
 }
 
 //#endregion

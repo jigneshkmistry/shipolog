@@ -5,6 +5,7 @@ var shipstationAPI = require('node-shipstation');
 const _ = require('lodash');
 const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
 const { DynamoDBDocumentClient, BatchWriteCommand, GetCommand, PutCommand } = require('@aws-sdk/lib-dynamodb');
+const connectToDb = require('./pg-connect');
 
 //#endregion
 
@@ -14,9 +15,6 @@ const AWS_REGION = process.env.AWS_REGION || 'us-east-1';
 const client = new DynamoDBClient({ region: AWS_REGION });
 const docClient = DynamoDBDocumentClient.from(client);
 const BATCH_RECORD_COUNT = 20;
-var shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
-const getOrdersAsync = util.promisify(shipstation.getOrders);
-const getStoreAsync = util.promisify(shipstation.getStore);
 const PK = `ACC#${process.env.api_key}`;
 const SK = `METADATA#${process.env.api_key}`;
 const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
@@ -26,13 +24,26 @@ const ORDER_WITH_ITEM_TABLE_NAME =  process.env.ORDER_WITH_ITEM_TABLE_NAME;
 //#region HANDLER
 
 exports.handler = async (event) => {
-    let ordersToSyncToDynamo = [];
-    let orders = [];
-    let lastSyncDate;
 
+    console.log("Event : " + JSON.stringify(event));
+    const db_client = await connectToDb(process.env.connectionString);
     try {
-        console.log("Event : " + JSON.stringify(event));
-        var result = await getOrdersFromShipStation(event);
+        let ordersToSyncToDynamo = [];
+        let orders = [];
+        let lastSyncDate,shipstation;
+        const user_email = event?.headers?.['Shipolog-User-Email'];
+
+        if (user_email) {
+            console.log("user_email key used : " + user_email);
+            let client_row = await getClientByUser(db_client, user_email);
+            shipstation = new shipstationAPI(client_row.apikey, client_row.apisecret);
+        }
+        else {
+            console.log("hardcoded key used : ");
+            shipstation = new shipstationAPI(process.env.api_key, process.env.secret);
+        }
+
+        var result = await getOrdersFromShipStation(shipstation,event);
 
         if (result.statusCode === 200) {
             orders = result.body.orders;
@@ -48,7 +59,7 @@ exports.handler = async (event) => {
                 ordersToSyncToDynamo = orders;
             }
 
-            const batchWriteRequests = await processOrders(ordersToSyncToDynamo)
+            const batchWriteRequests = await processOrders(shipstation, ordersToSyncToDynamo)
 
             await storeOrderToDynamoDB(batchWriteRequests);
             if (ordersToSyncToDynamo && ordersToSyncToDynamo.length > 0) {
@@ -78,10 +89,21 @@ exports.handler = async (event) => {
 
 //#endregion
 
+//#region RDS
+
+async function getClientByUser(client, userEmail) {
+
+    const query = `select c.clientid,c.apikey,c.apisecret from users u inner join clients c on u.clientid = c.clientid where u.useremail = $1`
+    return _.get(await client.query(query, [userEmail]), 'rows.0')
+}
+
+//#endregion
+
 //#region UTILS
 
-async function getOrdersFromShipStation(event) {
+async function getOrdersFromShipStation(shipstation,event) {
 
+    const getOrdersAsync = util.promisify(shipstation.getOrders);
     const queryParams = event?.queryStringParameters ? event?.queryStringParameters : {};
     // queryParams.page = queryParams?.page ? queryParams?.page : 1;
     // queryParams.pageSize = queryParams?.pageSize ? queryParams?.pageSize : 5;
@@ -110,9 +132,10 @@ function prepareAPIResponse(statusCode, body,headers) {
     };
 }
 
-async function processOrders(orders){
+async function processOrders(shipstation,orders){
 
     const batchWriteRequests = [];
+    const getStoreAsync = util.promisify(shipstation.getStore);
     for (var ordIndx in orders) {
 
         const ord = orders[ordIndx];

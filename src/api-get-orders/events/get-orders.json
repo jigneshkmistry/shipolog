@@ -20,7 +20,8 @@
         "X-Amzn-Trace-Id": "Root=1-66740284-7cc4189d1504d2564a658ef6",
         "X-Forwarded-For": "49.36.89.105, 15.158.25.233",
         "X-Forwarded-Port": "443",
-        "X-Forwarded-Proto": "https"
+        "X-Forwarded-Proto": "https",
+        "Shipolog-User-Email": "jigneshkmistry@gmail.com"
     },
     "multiValueHeaders": {
         "Accept": [

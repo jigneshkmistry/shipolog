@@ -61,6 +61,7 @@ Resources:
           api_key: !Ref apiKey
           secret: !Ref secret
           ORDER_WITH_ITEM_TABLE_NAME: !Ref orderWithItemTable
+          connectionString: !Ref connectionString
       Policies:
          - DynamoDBCrudPolicy:
             TableName: !Ref orderWithItemTable
@@ -80,6 +81,7 @@ Resources:
         Variables:
           api_key: !Ref apiKey
           secret: !Ref secret
+          connectionString: !Ref connectionString
       Events:
         Api:
           Type: Api
@@ -97,6 +99,7 @@ Resources:
           api_key: !Ref apiKey
           secret: !Ref secret
           ORDER_WITH_ITEM_TABLE_NAME: !Ref orderWithItemTable
+          connectionString: !Ref connectionString
       Policies:
          - DynamoDBCrudPolicy:
             TableName: !Ref orderWithItemTable
