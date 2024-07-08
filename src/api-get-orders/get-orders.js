@@ -47,6 +47,32 @@ exports.handler = async (event) => {
 
         if (result.statusCode === 200) {
             orders = result.body.orders;
+
+          
+            // Prepare shipFrom address in every order
+            if (orders && orders.length > 0) {
+
+                // Step 1: Get unique orders by warehouseId
+                var uniqueOrders = _.uniqBy(orders, 'advancedOptions.warehouseId');
+
+                // Step 2: Extract warehouseIds from the unique orders
+                var uniqueWarehouseIdsArray = _.map(uniqueOrders, 'advancedOptions.warehouseId');
+
+                // Step 3: Get the all warehouses by ids
+                var warehouses = await getFromAddressByWarehouseIds(shipstation, uniqueWarehouseIdsArray);
+
+                // Step 4: Create a lookup map for warehouses by warehouseId
+                var warehouseMap = _.keyBy(warehouses, 'id');
+
+                // Step 5: Add shipFrom property to each order
+                result.body.orders.forEach(order => {
+                    var warehouseId = order.advancedOptions.warehouseId;
+                    if (warehouseMap[warehouseId]) {
+                        order.shipFrom = prepareShipFrom(warehouseMap[warehouseId]);
+                    }
+                });
+            }
+            
             var syncDate = await getLastOrderSyncDate();
             if (syncDate) {
                 ordersToSyncToDynamo = orders.filter(x => (new Date(x.orderDate)) > (new Date(syncDate)));
@@ -75,7 +101,7 @@ exports.handler = async (event) => {
             });
         }
 
-        return prepareAPIResponse(result.statusCode, result.body,result.headers);
+        return prepareAPIResponse(result.statusCode, result.body, result.headers);
     }
     catch (err) {
 
@@ -112,6 +138,26 @@ async function getOrdersFromShipStation(shipstation,event) {
     queryParams.sortDir = 'DESC';
 
     return (await getOrdersAsync(queryParams)).toJSON();
+}
+
+//For getting the from address from get warehouse call by id
+async function getFromAddressByWarehouseIds(shipstation, warehouseIds) {
+   
+    const getWarehouseAsync = util.promisify(shipstation.getWarehouse);
+
+     // Create an array of promises
+     let promises = warehouseIds.map(warehouseId => getWarehouseAsync(warehouseId));
+
+     // Wait for all promises to resolve
+     let warehouses = await Promise.all(promises);
+
+     return warehouses.map(warehouse => {
+        const warehouseData = warehouse.toJSON().body;
+        return {
+            id: warehouseData?.warehouseId,
+            ...warehouseData?.originAddress
+        };
+    });
 }
 
 function prepareAPIResponse(statusCode, body,headers) {
@@ -225,6 +271,7 @@ function prepareAPIResponseData(result){
             carrierCode: ord.carrierCode,
             serviceCode: ord.serviceCode,
             shipTo: ord.shipTo,
+            shipFrom : ord.shipFrom,
             billTo: ord.billTo,
             weight: ord.weight,
             dimensions: ord.dimensions,
@@ -243,6 +290,24 @@ function prepareAPIResponseData(result){
         }
     });
 }
+
+function prepareShipFrom(warehouse) {
+    return {       
+        name: warehouse?.name,
+        company: warehouse?.company,
+        street1: warehouse?.street1,
+        street2: warehouse?.street2,
+        street3: warehouse?.street3,
+        city: warehouse?.city,
+        state: warehouse?.state,
+        postalCode: warehouse?.postalCode,
+        country: warehouse?.country,
+        phone: warehouse?.phone,
+        residential: warehouse?.residential,
+        addressVerified: warehouse?.addressVerified
+    };
+}
+
 
 async function getLastOrderSyncDate() {
 
