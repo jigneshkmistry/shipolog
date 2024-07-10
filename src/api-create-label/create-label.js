@@ -34,6 +34,7 @@ exports.handler = async (event, context) => {
             console.log("user_email key used : " + user_email);
             let client_row = await getClientByUser(db_client, user_email);
             shipstation = new shipstationAPI(client_row.apikey, client_row.apisecret);
+            db_client.release();
         }
         else {
             console.log("hardcoded key used : ");
@@ -48,6 +49,7 @@ exports.handler = async (event, context) => {
         return prepareAPIResponse(200, result, maxDateHeaders);
     }
     catch (err) {
+        db_client.release();
         console.log("Error in API :" + JSON.stringify(err));
         return prepareAPIResponse(500, {
             message: 'An unexpected error occurs. Please try again',

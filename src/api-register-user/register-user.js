@@ -61,7 +61,7 @@ exports.handler = async (event) => {
 
         const user_insert_query = sqlQueryGenerator.insert('users', user)
         let user_result = await db_client.query(user_insert_query.text + " RETURNING userid", user_insert_query.values);
-
+        db_client.release();
 
         return prepareAPIResponse(200, {
             clientid: result.rows[0].clientid,
